@@ -53,7 +53,6 @@ class EthereumClient {
         value: sendEth,
       });
 
-      /
       logger.info(`\x1b[92mTx Hash: ${tx}\nBridge: depositETH | Amount: ${amount} ETH | Total Tx: ${transactionNumber}\x1b[0m`);
       return tx; 
     } catch (error) {
