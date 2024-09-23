@@ -2,12 +2,12 @@ import { http, createWalletClient, createPublicClient, parseEther, encodeFunctio
 import { hemiPublicBitcoinKitActions, hemiPublicOpNodeActions, hemiSepolia } from "hemi-viem";
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from "viem/chains";
-import logger from './logger.js'; 
-import hemiABI from './contract/abi.js'; 
-import WETHABI from './chain/WETH.js'; 
-import UNIABI from './chain/uniswap.js'; 
-import { accounts } from './privateKeys.js'; 
-import printBanner from './contract/banner.js'; 
+import logger from './logger.js'; // Import logger
+import hemiABI from './contract/abi.js'; // Update path to abi.js
+import WETHABI from './chain/WETH.js'; // Update path to WETH.js
+import UNIABI from './chain/uniswap.js'; // Update path to uniswap.js
+import { accounts } from './privateKeys.js'; // Update path to privateKeys.js
+import printBanner from './contract/banner.js'; // Import banner
 
 console.clear();
 
@@ -150,7 +150,6 @@ class HemiSepolia {
   }
 }
 
-// Usage example
 (async () => {
   let completedTransactions = 0;
 
@@ -181,5 +180,5 @@ class HemiSepolia {
     }
   }
 
-  logger.info(`Total transactions completed: ${completedTransactions}\x1b[0m`)`);
+  logger.info(`Total transactions completed: ${completedTransactions}\x1b[0m`);
 })();
