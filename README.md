@@ -32,3 +32,4 @@ npm run start
 ### NOTE :
 **Tunnel ETH to HEMI Testnet Per Eth ```(Max 2ETH/ 2000 Points Per Day)```**
 **Swap on HEMI 2x One Days**
+**Check transaction** https://testnet.explorer.hemi.xyz/
