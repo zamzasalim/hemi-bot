@@ -2,12 +2,12 @@ import { http, createWalletClient, createPublicClient, parseEther, encodeFunctio
 import { hemiPublicBitcoinKitActions, hemiPublicOpNodeActions, hemiSepolia } from "hemi-viem";
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from "viem/chains";
-import logger from './logger.js'; // Import logger
-import hemiABI from './contract/abi.js'; // Update path to abi.js
-import WETHABI from './chain/WETH.js'; // Update path to WETH.js
-import UNIABI from './chain/uniswap.js'; // Update path to uniswap.js
-import { accounts } from './privateKeys.js'; // Update path to privateKeys.js
-import printBanner from './contract/banner.js'; // Import banner
+import logger from './logger.js'; 
+import hemiABI from './contract/abi.js'; 
+import WETHABI from './chain/WETH.js'; 
+import UNIABI from './chain/uniswap.js'; 
+import { accounts } from './privateKeys.js'; 
+import printBanner from './contract/banner.js'; 
 
 console.clear();
 
@@ -101,7 +101,7 @@ class HemiSepolia {
         value: sendEth,
       });
 
-      logger.info(`\x1b[92mWETH Transaction sent: ${tx}\nSwap: WETH Swap | Amount: ${sendEth} | Total Tx: ${transactionNumber}\x1b[0m`);
+      logger.info(`\x1b[92mWETH Transaction sent: ${tx}\nBridge: WETH Swap | Amount: ${sendEth} | Total Tx: ${transactionNumber}\x1b[0m`);
       return tx; 
     } catch (error) {
       logger.error(`Error swapping WETH: ${error.message}`);
@@ -141,7 +141,7 @@ class HemiSepolia {
         value: sendEth,
       });
 
-      logger.info(`\x1b[92mDAI Tx Sent: ${tx}\nSwap: DAI Swap | Amount: ${sendEth} | Total Tx: ${transactionNumber}\x1b[0m`);
+      logger.info(`\x1b[92mDAI Tx Sent: ${tx}\nBridge: DAI Swap | Amount: ${sendEth} | Total Tx: ${transactionNumber}\x1b[0m`);
       return tx; 
     } catch (error) {
       logger.error(`Error swapping DAI: ${error.message}`);
