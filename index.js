@@ -1,4 +1,3 @@
-// Import yang diperlukan
 import { http, createWalletClient, createPublicClient, parseEther, encodeFunctionData } from "viem";
 import { hemiPublicBitcoinKitActions, hemiPublicOpNodeActions, hemiSepolia } from "hemi-viem";
 import { privateKeyToAccount } from 'viem/accounts';
