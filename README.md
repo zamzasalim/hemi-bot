@@ -15,6 +15,9 @@ git clone https://github.com/zamzasalim/hemi-bot.git
 cd hemi-bot
 ```
 ```
+pip install -r requirements.txt
+```
+```
 npm install
 ```
 **Submit your PrivateKeys**
