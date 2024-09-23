@@ -14,14 +14,6 @@
     "ethers": "^6.13.2",
     "winston": "^3.14.2"
   },
-  "type": "module",
-  "repository": {
-    "url": "git@github.com:CourteousBin/hemi-task-bot.git"
-  },
-  "homepage": "https://github.com/CourteousBin/hemi-task-bot",
-  "bugs": {
-    "url": "https://github.com/CourteousBin/hemi-task-bot/issues"
-  },
   "engines": {
     "node": ">=14.0.0"
   }
