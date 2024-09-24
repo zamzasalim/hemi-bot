@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 const printBanner = () => {
     console.log(chalk.cyan('=============================================='));
-    console.log(chalk.cyan('                 AIRDROP ASC                 '));
+    console.log(chalk.cyan('           HEMI BOT | AIRDROP ASC            '));
     console.log(chalk.cyan('=============================================='));
     console.log(chalk.cyan('Credit By        : Airdrop ASC               '));
     console.log(chalk.cyan('Telegram Channel : @airdropasc               '));
