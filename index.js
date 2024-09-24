@@ -1,5 +1,15 @@
-import { http, createWalletClient, createPublicClient, parseEther, encodeFunctionData } from "viem";
-import { hemiPublicBitcoinKitActions, hemiPublicOpNodeActions, hemiSepolia } from "hemi-viem";
+import { 
+  http, 
+  createWalletClient, 
+  createPublicClient, 
+  parseEther, 
+  encodeFunctionData 
+} from "viem";
+import { 
+  hemiPublicBitcoinKitActions, 
+  hemiPublicOpNodeActions, 
+  hemiSepolia 
+} from "hemi-viem";
 import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from "viem/chains";
 import logger from './logger.js'; 
@@ -10,32 +20,32 @@ import { accounts } from './privateKeys.js';
 import printBanner from './contract/banner.js'; 
 
 console.clear();
-
 printBanner();
 
 class EthereumClient {
   constructor(privateKey) {
     this.parameters = { chain: sepolia, transport: http() };
     this.account = privateKeyToAccount(privateKey);
-
+    
     this.walletClient = createWalletClient({
       account: this.account,
       ...this.parameters
     });
 
-    this.publicClient = createPublicClient({
-      ...this.parameters,
-    });
+    this.publicClient = createPublicClient(this.parameters);
   }
 
   async depositETH(minGasLimit, extraData, amount, transactionNumber) {
     const proxyContractAddress = '0xc94b1BEe63A3e101FE5F71C80F912b4F4b055925';
     const sendEth = parseEther(amount.toString());
-
     const { address } = this.account;
     const balance = await this.publicClient.getBalance({ address });
 
-    if (balance < sendEth) {
+    // Total cost calculation
+    const gasPrice = await this.publicClient.getGasPrice();
+    const totalCost = (BigInt(minGasLimit) * BigInt(gasPrice)) + BigInt(sendEth.toString());
+
+    if (balance < totalCost) {
       logger.error(`Insufficient balance, please deposit enough ETH. Balance: ${balance}`);
       throw new Error('Invalid balance');
     }
@@ -79,12 +89,14 @@ class HemiSepolia {
 
   async swapWeth(transactionNumber) {
     const WethContractAddress = '0x0C8aFD1b58aa2A5bAd2414B861D8A7fF898eDC3A';
-    const sendEth = parseEther('0.00001');
-
+    const sendEth = parseEther('0.0001');
     const { address } = this.account;
     const balance = await this.publicClient.getBalance({ address });
 
-    if (balance < sendEth) {
+    const gasPrice = await this.publicClient.getGasPrice();
+    const totalCost = (BigInt(100000) * BigInt(gasPrice)) + BigInt(sendEth.toString()); // Adjust gas limit as necessary
+
+    if (balance < totalCost) {
       logger.error(`Insufficient balance for WETH swap`);
       throw new Error('Insufficient balance for WETH swap');
     }
@@ -111,14 +123,18 @@ class HemiSepolia {
 
   async swapDai(transactionNumber) {
     const UniswapContractAddress = '0xA18019E62f266C2E17e33398448e4105324e0d0F';
-    const sendEth = parseEther('0.00001');
-
+    const sendEth = parseEther('0.0001');
     const { address } = this.account;
     const balance = await this.publicClient.getBalance({ address });
 
-    if (balance < sendEth) {
-      logger.error(`Insufficient balance for DAI swap`);
-      throw new Error('Insufficient balance for DAI swap');
+    const gasPrice = await this.publicClient.getGasPrice();
+    const gasLimit = 100000; // Set an appropriate gas limit
+
+    const totalCost = (BigInt(gasLimit) * BigInt(gasPrice)) + BigInt(sendEth.toString());
+
+    if (balance < totalCost) {
+        logger.error(`Insufficient balance for DAI swap`);
+        throw new Error('Insufficient balance for DAI swap');
     }
 
     const data = encodeFunctionData({
@@ -145,6 +161,7 @@ class HemiSepolia {
       return tx; 
     } catch (error) {
       logger.error(`Error swapping DAI: ${error.message}`);
+      logger.error(`Request Arguments:\nfrom: ${address}\nto: ${UniswapContractAddress}\nvalue: ${sendEth}\ndata: ${data}`);
       throw error;
     }
   }
@@ -168,12 +185,12 @@ class HemiSepolia {
       const ethClient = new EthereumClient(formattedPrivateKey);
       await ethClient.depositETH(200000, '0x', 0.1, ++completedTransactions);
 
-      await new Promise(resolve => setTimeout(resolve, Math.random() * (2000) + 8000)); // Delay 8-10 detik
+      await new Promise(resolve => setTimeout(resolve, Math.random() * (2000) + 8000)); // Delay 8-10 seconds
 
       const hemiSepolia = new HemiSepolia(formattedPrivateKey);
       await hemiSepolia.swapWeth(++completedTransactions);
 
-      await new Promise(resolve => setTimeout(resolve, Math.random() * (2000) + 8000)); // Delay 8-10 detik
+      await new Promise(resolve => setTimeout(resolve, Math.random() * (2000) + 8000)); // Delay 8-10 seconds
       await hemiSepolia.swapDai(++completedTransactions);
     } catch (error) {
       logger.error(`Error during operations: ${error.message}`);
