@@ -3,18 +3,21 @@
   "version": "1.0",
   "description": "A bot for automating tasks on Hemi.",
   "main": "index.js",
+  "type": "module",  
   "scripts": {
-    "start": "node index.js",
-    "create": "node createWallet.js"
+    "start": "node index.js",      
+    "create": "node createWallet.js" 
   },
   "author": "Bingo",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.3.0",
-    "ethers": "^6.13.2",
-    "winston": "^3.14.2"
+    "chalk": "^5.3.0",            
+    "ethers": "^6.13.2",          
+    "hemi-viem": "^1.5.0",        
+    "viem": "^2.21.12",           
+    "winston": "^3.14.2"          
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14.0.0"            
   }
 }
